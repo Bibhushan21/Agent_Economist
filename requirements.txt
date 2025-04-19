@@ -1,0 +1,8 @@
+aiohttp
+pydantic
+python-dotenv
+asyncio
+logging
+Flask
+mistralai==0.4.2
+gunicorn

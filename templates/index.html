@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Economic Data Analysis</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Economic Data Analysis System</h1>
+        <form id="query-form">
+            <input type="text" id="query" placeholder="Enter your query here">
+            <button type="submit">Submit</button>
+        </form>
+
+        <div class="section">
+            <h3>Raw Data</h3>
+            <div id="rawDataSpinner" class="spinner" style="display: none;"></div>
+            <div id="rawData"></div>
+        </div>
+
+        <div class="section">
+            <h3>AI Analysis</h3>
+            <div id="aiAnalysisSpinner" class="spinner" style="display: none;"></div>
+            <div id="aiAnalysis"></div>
+        </div>
+
+        <div class="section">
+            <h3>Visualization</h3>
+            <div id="graphSpinner" class="spinner" style="display: none;"></div>
+            <canvas id="visualizationChart" width="400" height="200"></canvas>
+
+            <h4>Select Graph Type</h4>
+            <div id="graphTypeButtons" class="button-group">
+                <button type="button" data-type="line">Line</button>
+                <button type="button" data-type="bar">Bar</button>
+                <button type="button" data-type="pie">Pie</button>
+                <button type="button" data-type="doughnut">Doughnut</button>
+                <button type="button" data-type="radar">Radar</button>
+                <button type="button" data-type="polarArea">Polar Area</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/scripts.js"></script>
+</body>
+</html>
