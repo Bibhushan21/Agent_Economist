@@ -213,6 +213,14 @@ queryForm.addEventListener('submit', async function(event) {
     
     clearTimeout(timeoutId);
 });
+document.querySelectorAll('.suggestion').forEach(button => {
+    button.addEventListener('click', () => {
+        const queryInput = document.getElementById('query');
+        queryInput.value = button.textContent;
+        queryInput.focus();
+        queryInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+});
 
 document.getElementById('contact-form').addEventListener('submit', function(event) {
     event.preventDefault();

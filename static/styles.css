@@ -208,3 +208,46 @@ tr:hover {
 #contact-form button:hover {
     background-color: #0056b3;
 }
+.indicator-suggestions {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #eef5fb;
+    border: 1px solid #cce0f5;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
+}
+
+.indicator-suggestions h2 {
+    margin-top: 0;
+    color: #0056b3;
+    text-align: center;
+}
+
+.indicator-suggestions ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.indicator-suggestions li {
+    margin: 5px 0;
+}
+
+.indicator-suggestions button.suggestion {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 14px;
+}
+
+.indicator-suggestions button.suggestion:hover {
+    background-color: #0056b3;
+}
