@@ -6,3 +6,4 @@ logging
 Flask
 mistralai==0.4.2
 gunicorn
+Flask-Mail
