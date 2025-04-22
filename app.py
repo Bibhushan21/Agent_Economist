@@ -8,6 +8,9 @@ from typing import Dict, Any
 import hashlib
 import json
 from datetime import datetime, timedelta
+from flask_mail import Mail, Message
+from dotenv import load_dotenv
+import os
 
 app = Flask(__name__)
 
@@ -19,6 +22,18 @@ analyzer = None
 # Cache for API responses
 api_cache = {}
 CACHE_DURATION = 3600  # 1 hour cache duration
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Configure Flask-Mail
+app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
+app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT', 587))
+app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS', 'True') == 'True'
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+
+mail = Mail(app)
 
 def get_cache_key(endpoint: str, data: Dict[str, Any]) -> str:
     """Generate a cache key for the API request"""
@@ -154,6 +169,37 @@ def mcp_visualize():
     except Exception as e:
         app.logger.error(f'Error in mcp_visualize: {str(e)}')
         return jsonify({"error": str(e)}), 500
+
+@app.route('/send-complaint', methods=['POST'])
+def send_complaint():
+    try:
+        data = request.json
+        country = data.get('country')
+        start_year = data.get('startYear')
+        end_year = data.get('endYear')
+        indicator = data.get('indicator')
+        message = data.get('message', 'No additional message provided.')
+
+        # Compose the email
+        msg = Message('Data Issue Complaint',
+                      sender='sunitasapkota047@gmail.com',  # Update with your email
+                      recipients=['subedibibhushan@outlook.de'])
+        msg.body = f"""
+        Complaint Details:
+        Country: {country}
+        Start Year: {start_year}
+        End Year: {end_year}
+        Indicator: {indicator}
+        Message: {message}
+        """
+
+        # Send the email
+        mail.send(msg)
+
+        return jsonify({'message': 'Complaint sent successfully!'}), 200
+    except Exception as e:
+        app.logger.error(f'Error sending complaint: {str(e)}')
+        return jsonify({'message': 'Failed to send complaint.'}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

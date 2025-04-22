@@ -19,7 +19,7 @@ logging.basicConfig(
 class QueryParser:
     def __init__(self):
         # Initialize MistralAI client
-        mistral_api_key = "g7PZ1xLVJrA6XkMPNPzh3j5ZaNdBuDUI"  # Direct API key assignment
+        mistral_api_key = os.getenv('MISTRAL_API_KEY')  # Load API key from environment variable
         
         # Validate API key format
         if not isinstance(mistral_api_key, str) or len(mistral_api_key) < 32:

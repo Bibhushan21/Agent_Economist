@@ -7,6 +7,10 @@ from datetime import datetime
 import logging
 import hashlib
 import json
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 class MistralAnalyzer:
     def __init__(self):
@@ -14,7 +18,7 @@ class MistralAnalyzer:
         self.logger = logging.getLogger("MistralAnalyzer")
         
         # Initialize MistralAI client
-        mistral_api_key = 'g7PZ1xLVJrA6XkMPNPzh3j5ZaNdBuDUI'
+        mistral_api_key = os.getenv('MISTRAL_API_KEY')  # Load API key from environment variable
         
         self.client = MistralClient(api_key=mistral_api_key)
         # Initialize cache

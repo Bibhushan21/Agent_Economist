@@ -1,12 +1,19 @@
 function formatAnalysis(analysis) {
     const lines = analysis.split('\n');
-    let formatted = '<h3>Analysis Summary</h3><ul>';
+    let formatted = '<h3>Analysis Summary</h3><div>';
     lines.forEach(line => {
         if (line.trim()) {
-            formatted += `<li>${line}</li>`;
+            // Check if the line starts with a number followed by a period (e.g., '1.', '2.')
+            const match = line.match(/^\d+\./);
+            if (match) {
+                // Bold the line if it is a numbered subtopic
+                formatted += `<p><strong>${line}</strong></p>`;
+            } else {
+                formatted += `<p>${line}</p>`;
+            }
         }
     });
-    formatted += '</ul>';
+    formatted += '</div>';
     return formatted;
 }
 
@@ -205,4 +212,39 @@ queryForm.addEventListener('submit', async function(event) {
     await fetchDataProgressively(query);
     
     clearTimeout(timeoutId);
+});
+
+document.getElementById('contact-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const country = document.getElementById('country').value;
+    const startYear = document.getElementById('start-year').value;
+    const endYear = document.getElementById('end-year').value;
+    const indicator = document.getElementById('indicator').value;
+    const message = document.getElementById('message').value;
+
+    const complaintData = {
+        country,
+        startYear,
+        endYear,
+        indicator,
+        message
+    };
+
+    fetch('/send-complaint', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(complaintData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('contactResponse').style.display = 'block';
+        document.getElementById('contactResponse').textContent = 'Complaint submitted and we will fix that as soon as possible.';
+    })
+    .catch(error => {
+        console.error('Error sending complaint:', error);
+        document.getElementById('contactResponse').style.display = 'block';
+        document.getElementById('contactResponse').textContent = 'Error sending complaint. Please try again later.';
+    });
 });
