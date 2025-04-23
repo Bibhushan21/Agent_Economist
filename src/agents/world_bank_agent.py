@@ -35,6 +35,7 @@ class WorldBankAgent(BaseAgent):
             "exports": "NE.EXP.GNFS.CD",
             "imports": "NE.IMP.GNFS.CD",
             "fdi": "BX.KLT.DINV.CD.WD",
+            "co2 emissions": "EN.GHG.CO2.MT.CE.AR5",
 
             "BCA": "Current account balance",
             "BCA_NGDPD": "Current account balance",

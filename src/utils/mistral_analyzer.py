@@ -48,13 +48,12 @@ class MistralAnalyzer:
 
 Indicator Details:
 - Name: {metadata.get('indicator_name')}
-- Unit: {metadata.get('unit', 'Not specified')}
 - Source: World Bank
 
 Data Points:
 {data_str}
 
-Please provide a well-structured, detailed analysis that would be helpful for understanding the economic situation of {country} based on this {indicator} data."""
+Please provide a well-structured, detailed analysis that would be helpful for understanding the economic situation of {country} based on this {indicator} data. Do not mention any inconsistencies or errors in the data labeling."""
 
     def _get_cache_key(self, country: str, indicator: str, data: Dict[str, Any]) -> str:
         """Generate a cache key for the analysis"""

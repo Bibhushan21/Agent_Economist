@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 from src.agents.master_agent import MasterAgent
 from mistralai.client import MistralClient
 import re
-
 # Load environment variables at the start
 load_dotenv()
 
@@ -38,7 +37,8 @@ class QueryParser:
                 "unemployment": "SL.UEM.TOTL.ZS",
                 "inflation": "FP.CPI.TOTL.ZG",
                 "life expectancy": "SP.DYN.LE00.IN",
-                "poverty": "SI.POV.DDAY"
+                "poverty": "SI.POV.DDAY",
+                "co2 emissions": "EN.GHG.CO2.MT.CE.AR5"
             },
             "imf": {
                 "current_account": "BCA",
