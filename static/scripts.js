@@ -237,6 +237,7 @@ document.getElementById('contact-form').addEventListener('submit', function(even
         indicator,
         message
     };
+    
 
     fetch('/send-complaint', {
         method: 'POST',

@@ -7,3 +7,5 @@ Flask
 mistralai==0.4.2
 gunicorn
 Flask-Mail
+PyPDF2
+requests

@@ -7,7 +7,24 @@
     <link rel="stylesheet" href="/static/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body> 
+<body>  
+    <!-- Navigation Bar -->
+    <nav id="desktop-nav">
+       <div class="logo">
+           <a href="/">
+               <img src="{{ url_for('static', filename='Multiverz Logo.png') }}" alt="ai.Multiverz Logo" height="40">
+               <span class="fw-bold">AI.Multiverz</span>
+           </a>
+       </div>
+       <div>
+           <ul class="nav-links">
+               <li><a href="/">Home</a></li>
+               <li><a href="/about">About</a></li>
+               <li><a href="/services">Services</a></li>
+               <li><a href="/contact">Contact</a></li>
+           </ul>
+       </div>
+   </nav>
     <section class="indicator-suggestions">
         <h2>🌍 What Can You Search?</h2>
         <p>Here are some example indicators you can explore:</p>
@@ -80,6 +97,94 @@
         </div>
     </div>
 
+
+    <footer class="custom-footer text-center text-lg-start pt-4">
+        <p>&copy; 2025 Multiverz, Singapore. All Rights Reserved.</p>
+    </footer>
+    <!-- Floating Chat Icon -->
+    <div class="chat-icon" onclick="toggleChat()">+ai</div>
+
+    <!-- Chatbot Container -->
+    <div class="chat-container" id="chat-container">
+        <div class="chat-header">
+            <span>Multiverz Brainstorming AI</span>
+            <button onclick="toggleChat()">✖</button>
+        </div>
+        
+        <div id="chat-box"></div>
+
+        <div class="chat-footer">
+            <input type="text" id="user-input" placeholder="Type a message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+
+        <div id="loading" class="loading">
+            <div class="spinner"></div> AI is thinking...
+        </div>
+    </div>
+
+    <script>
+        function toggleChat() {
+            let chatContainer = document.getElementById("chat-container");
+            chatContainer.style.display = chatContainer.style.display === "none" ? "flex" : "none";
+        }
+
+        function formatAIResponse(text) {
+            return text
+                .replace(/### (.*?)\n/g, '<h3>$1</h3>')
+                .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+                .replace(/(^|\n)(\d+)\. /g, '$1<b>$2.</b> ')
+                .replace(/\*(.*?)\*:/g, '<b>$1:</b>')
+                .replace(/\n- /g, '<br>- ')
+                .replace(/\n/g, '<br>');
+        }
+
+        function sendMessage() {
+            let userInput = document.getElementById("user-input").value.trim();
+            if (!userInput) return;
+        
+            let chatBox = document.getElementById("chat-box");
+            let loadingIndicator = document.getElementById("loading");
+        
+            let userMessage = document.createElement("div");
+            userMessage.classList.add("user-message");
+            userMessage.innerHTML = `<strong>You:</strong> ${userInput}`;
+            
+            chatBox.appendChild(userMessage);
+        
+            // Capture the latest user message's position before AI response
+            let latestUserMessagePosition = userMessage.offsetTop;
+        
+            document.getElementById("user-input").value = "";
+        
+            loadingIndicator.style.display = "block";
+        
+            fetch("/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: userInput })
+            })
+            .then(response => response.json())
+            .then(data => {
+                let formattedResponse = formatAIResponse(data.ai_response || "I couldn't understand that.");
+                
+                let aiMessage = document.createElement("div");
+                aiMessage.classList.add("ai-message");
+                aiMessage.innerHTML = `<strong>🤖 AI:</strong> ${formattedResponse}`;
+        
+                chatBox.appendChild(aiMessage);
+                loadingIndicator.style.display = "none";
+        
+                // Scroll to the latest user message's position
+                chatBox.scrollTop = latestUserMessagePosition;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                loadingIndicator.style.display = "none";
+            });
+        }
+        
+    </script>
     <script src="/static/scripts.js"></script>
 </body>
 </html>
